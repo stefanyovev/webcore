@@ -1,0 +1,2 @@
+# webcore
+common website template
