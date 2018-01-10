@@ -9,7 +9,7 @@
       $p = & $_POST; if( get_magic_quotes_gpc() ) array_map( stripslashes, $p );
       $e = & $_SERVER;
       $f = & $_FILES;
-      var_dump($e);exit;
+
       $base = trim( dirname( $e[PHP_SELF] ), '/' );
       $base0 = 'http' . ( $e[HTTPS] ? 's' : '' ) . '://' . $e[SERVER_NAME] . '/' . ( $base ? "$base/" : '' ); 
 
