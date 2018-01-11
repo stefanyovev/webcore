@@ -1,0 +1,3 @@
+
+AddHandler application/x-httpd-php70 .php7
+RewriteRule (.*) index.php7
