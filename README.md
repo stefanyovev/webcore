@@ -1,12 +1,13 @@
-# webcore
-common website template
+# common website template
 
 # todo
 
    1) ui 
    
       underline current in menu
+      
       controls on items, buttons in sidebar, no central bar
+      
       drag instead of scroll (solve invisible shadows or unnecessary scrollbars)
       
       change background function using //randomimage/w/h/12312313
