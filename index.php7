@@ -3,27 +3,27 @@
       session_start();
 
       $s = & $_SESSION; 
-      $p = & $_POST; if( get_magic_quotes_gpc() ) array_map( stripslashes, $p );
+      $p = & $_POST;
       $e = & $_SERVER;
       $f = & $_FILES;
-      
-      if( 'www.' == strtolower( substr( $e[SERVER_NAME], 0, 4 ) ) ){
-         header( 'Location: https://' . substr( $e[SERVER_NAME], 4 ) . $e[REQUEST_URI] );
-         exit; }
-
-      if( !$e[HTTPS] ){
-         header( 'Location: https://' . $e[SERVER_NAME] . $e[REQUEST_URI] );
-         exit; }
-         
-      $home = trim( dirname( $e[PHP_SELF] ), '/' ); // install dir
-      $url = 'http' . ( $e[HTTPS] ? 's' : '' ) . '://' . $e[SERVER_NAME] . '/' . ( $home ? "$home/" : '' ); 
             
-      header( 'Cache-control: no-cache, no-store, must-revalidate' ); 
       header( 'Content-type: text/html; charset=UTF-8' );
+      header( 'Cache-control: no-cache, no-store, must-revalidate' ); 
       header_remove( Pragma ); header_remove( Expires );
-         
+
+      $www = 'www.' == strtolower( substr( $e[SERVER_NAME], 0, 4 ) );
+      if( !$e[HTTPS] || $www ){
+         header( 'Location: https://' . substr( $e[SERVER_NAME], $www ? 4 : 0 ) . $e[REQUEST_URI] );
+         exit; }
+      unset( $www );
+
+      $home = trim( dirname( $e[PHP_SELF] ), '/' );
+      $url = 'http' . ( $e[HTTPS] ? 's' : '' ) . '://' . $e[SERVER_NAME] . '/' . ( $home ? "$home/" : '' ); 
+   
       function redirect( $to = '' ){ global $url;
          header( 'Location: ' . $url . $to ); exit; }
+
+      if( get_magic_quotes_gpc() ) array_map( stripslashes, $p );
 
 //######################################################################################################################################################################################
 
