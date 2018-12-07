@@ -4,23 +4,31 @@
 
 /*
 
-<dir>
-   <background id="background" />
-   <dir id="Adir" />
-   <dir id="Bdir">
-      <file id="Afile" />
-      <file id="Bfile" />
-   </dir>
-   <file id="Cfile" />
-</dir>
+      <dir>    
+         <background id="background" />    
+         <dir id="Adir" />    
+         <dir id="Bdir">    
+            <file id="Afile" ctime="2018">    
+               content of Afile    
+            </file>    
+            <file id="Bfile" />    
+            text    
+         </dir>    
+         <file id="Cfile" />    
+      </dir>
 
-''
 background
 Adir
 Bdir
 Bdir/Afile
+Bdir/Afile.ctime
 Bdir/Bfile
 Cfile
+
+empty( p( Cfile ) ) -> True
+len( p( Bdir ) ) -> 3
+p( Bdir )[0] -> 'file'
+p( Bdir )[1] -> 'content of Afile'
 
 */
 
@@ -30,12 +38,12 @@ $M =
    [background, id => background],
    [dir, id => Adir],
    [dir, id => Bdir,
-      [file, id => Afile, 'content of Afile'],
+      [file, id => Afile, ctime => '2018', 'content of Afile'],
       [file, id => Bfile], // empty Bfile
       'text' ], // text node in Bdir
    [file, id => Cfile] ];
 
-            
+
    function ui( & $x, $l=0 ){
       $p = str_repeat( ' ', 3 + $l*3 ) . '-->';
       $sol = ( $l ? $p : '      ' );
