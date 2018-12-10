@@ -5,9 +5,9 @@
          !preg_match( '/\A[0-9\-_]+\z/', $data ) && preg_match( '/\A[a-z0-9\-_]+\z/', $data ); }
       return false; }
 
-   function esc( $data, $for = front ){ switch( $for ){
-      case front: return htmlentities( $data, ENT_QUOTES, 'UTF-8' );
-      case back: return addslashes( $data ); } }
+   function esc( $data, $type = html ){ switch( $type ){
+      case html: return htmlentities( $data, ENT_QUOTES, 'UTF-8' );
+      case sql: return addslashes( $data ); } }
 
    function tar( $x ){ $t = ''; foreach( explode( '/', $x ) as $y ) $t = $y;
       return $t; }
@@ -30,7 +30,7 @@
                 clamp( $r[3]+ $q-1     , 0, 1 ) ];
       return 'rgba( '.implode( ', ', $r ).')'; }
       
-   function ui( & $x, $l=0 ){
+   function xml( & $x, $l=0 ){
       $p = str_repeat( ' ', 3 + $l*3 ) . '-->';
       $sol = ( $l ? $p : '      ' );
       $eol = ( $l ? '<!--' : '' ) . "\n";
@@ -39,7 +39,7 @@
       echo $sol . "<{$x[0]}$a";
       if( !isset( $x[1] ) ) echo " /><!--\n";
       else{ echo "><!--\n";
-         for( $i=1; isset( $x[$i] ); $i++ ) ui( $x[$i], $l+1 );
+         for( $i=1; isset( $x[$i] ); $i++ ) xml( $x[$i], $l+1 );
          echo "$p</{$x[0]}>" . $eol; } }
 
    // ---------------------------------------------------------------------------------------
@@ -66,8 +66,8 @@
          if( !$found ) return NULL; } }
       return $p; }
 
-   function newid( $x ){ $y = 2; while( p( $x ) ) $x .= $y;
-      return $x; }
+   function newid( $x ){ $n = 1; $r = $x; while( p( $r ) ) $r = $x . ++$n;
+      return $r; }
 
 //######################################################################################################################################################################################
 
